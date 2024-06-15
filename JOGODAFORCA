@@ -1,0 +1,115 @@
+import random
+
+def escolher_palavra():
+    palavras = ['programacao', 'python', 'desenvolvimento']
+    return random.choice(palavras)
+
+def exibir_forca(tentativas):
+    estados_forca = [
+        """
+         -----
+         |   |
+             |
+             |
+             |
+             |
+        =========
+        """,
+        """
+         -----
+         |   |
+         O   |
+             |
+             |
+             |
+        =========
+        """,
+        """
+         -----
+         |   |
+         O   |
+         |   |
+             |
+             |
+        =========
+        """,
+        """
+         -----
+         |   |
+         O   |
+        /|   |
+             |
+             |
+        =========
+        """,
+        """
+         -----
+         |   |
+         O   |
+        /|\\  |
+             |
+             |
+        =========
+        """,
+        """
+         -----
+         |   |
+         O   |
+        /|\\  |
+        /    |
+             |
+        =========
+        """,
+        """
+         -----
+         |   |
+         O   |
+        /|\\  |
+        / \\  |
+             |
+        =========
+        """
+    ]
+    
+    if 0 <= tentativas < len(estados_forca):
+        print(estados_forca[tentativas])
+    else:
+        print("Número de tentativas inválido.")
+
+def jogar():
+    palavra = escolher_palavra()
+    letras_adivinhadas = []
+    tentativas = 0
+    max_tentativas = 6
+    palavra_oculta = ['_' for _ in palavra]
+    
+    print("Bem-vindo ao jogo da forca!")
+    
+    while tentativas < max_tentativas and '_' in palavra_oculta:
+        exibir_forca(tentativas)
+        print('Palavra:', ' '.join(palavra_oculta))
+        print('Letras adivinhadas:', ' '.join(letras_adivinhadas))
+        
+        letra = input("Adivinhe uma letra: ").lower()
+        
+        if letra in letras_adivinhadas:
+            print("Você já adivinhou essa letra.")
+            continue
+        
+        letras_adivinhadas.append(letra)
+        
+        if letra in palavra:
+            for i in range(len(palavra)):
+                if palavra[i] == letra:
+                    palavra_oculta[i] = letra
+        else:
+            tentativas += 1
+        
+    if '_' not in palavra_oculta:
+        print("Parabéns! Você adivinhou a palavra:", palavra)
+    else:
+        exibir_forca(tentativas)
+        print("Você perdeu! A palavra era:", palavra)
+
+# Testando a função jogar
+jogar()
